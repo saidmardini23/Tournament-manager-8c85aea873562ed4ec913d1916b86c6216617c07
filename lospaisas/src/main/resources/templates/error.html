@@ -1,25 +1,21 @@
 <!DOCTYPE html>
 <html lang="es"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout/admin :: pagina('Confirmar Eliminación de Jugador', 'jugadores', ~{::contenido})}">
+      th:replace="~{layout/admin :: pagina('Error', 'dashboard', ~{::contenido})}">
 <body>
 
-    <section th:fragment="contenido">
-        <div class="contenedor-confirmacion-centrado">
-
-            <div class="caja-confirmacion">
-                <h2 class="pregunta-confirmacion">¿Está seguro de eliminar este jugador?</h2>
-
-                <div class="acciones-confirmacion">
-                    <form th:action="@{/admin/jugadores/{id}/eliminar(id=${jugador.id})}" method="post">
-                        <button type="submit" class="btn-confirmar-si">SI</button>
-                    </form>
-                    <a th:href="@{/jugadores/{id}(id=${jugador.id})}" class="btn-confirmar-no">NO</a>
-                </div>
+<section th:fragment="contenido">
+    <div class="contenedor-confirmacion-centrado">
+        <div class="caja-confirmacion">
+            <h2 class="pregunta-confirmacion">Ha ocurrido un error</h2>
+            <p th:if="${status != null}" th:text="'Código: ' + ${status}">Código: 500</p>
+            <p th:if="${path != null}" th:text="'Ruta: ' + ${path}">Ruta: /</p>
+            <div class="acciones-confirmacion">
+                <a th:href="@{/}" class="btn-confirmar-no">VOLVER AL INICIO</a>
             </div>
-
         </div>
-    </section>
+    </div>
+</section>
 
 </body>
 </html>

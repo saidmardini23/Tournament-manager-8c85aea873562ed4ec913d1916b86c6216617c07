@@ -3,22 +3,25 @@ package com.lospaisas.dto.request;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.validation.constraints.NotNull;
 
 public record PartidoRequest(
 
-        @NotNull 
+        @NotNull
         UUID jornadaId,
 
-        @NotNull 
+        @NotNull
         UUID equipoLocalId,
 
         @NotNull
-         UUID equipoVisitanteId,
+        UUID equipoVisitanteId,
 
-        @NotNull 
+        @NotNull
         UUID arbitroId,
 
-        @NotNull 
+        @NotNull
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         LocalDateTime fecha) {
 }

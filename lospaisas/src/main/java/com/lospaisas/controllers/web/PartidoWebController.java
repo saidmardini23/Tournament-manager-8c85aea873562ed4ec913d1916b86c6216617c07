@@ -170,6 +170,7 @@ public class PartidoWebController {
 
     private void cargarCatalogosFormulario(Model model, UUID partidoId, UUID jornadaId) {
         model.addAttribute("partidoId", partidoId);
+        model.addAttribute("esEdicion", partidoId != null);
         model.addAttribute("jornadaId", jornadaId);
 
         if (jornadaId != null) {
