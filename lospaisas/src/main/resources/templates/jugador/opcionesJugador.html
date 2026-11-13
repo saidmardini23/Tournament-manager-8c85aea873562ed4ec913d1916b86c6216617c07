@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina('Opciones del Jugador', 'jugadores', ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-opciones-centrado">
+
+            <div class="tarjeta-opciones-torneo">
+                <h2 class="titulo-opciones" th:text="'OPCIONES: ' + ${jugador.nombre}">Opciones del Jugador</h2>
+
+                <div th:if="${error}" class="mensaje-error" style="margin-top: 1rem;" th:text="${error}">Error al procesar la solicitud.</div>
+
+                <div class="lista-botones-opciones">
+                    <a th:href="@{/admin/jugadores/{id}/editar(id=${jugador.id})}" class="btn-opcion-menu btn-editar-opcion">EDITAR JUGADOR</a>
+                    <a th:href="@{/admin/jugadores/{id}/confirmar-eliminar(id=${jugador.id})}" class="btn-opcion-menu btn-borrar-opcion">BORRAR JUGADOR</a>
+                    <a th:href="@{/jugadores/{id}(id=${jugador.id})}" class="btn-opcion-menu btn-volver-opcion">VOLVER</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

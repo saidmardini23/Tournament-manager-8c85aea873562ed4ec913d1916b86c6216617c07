@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: pagina('Asistentes - ' + ${equipo.nombre}, ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-menu-equipo">
+
+            <div class="encabezado-equipo">
+                <a th:href="@{/equipos/{id}(id=${equipo.id})}" class="btn-volver">&lt; Volver al Equipo</a>
+                <h1 class="titulo-equipo" th:text="'🎯 ASISTENCIAS - ' + ${equipo.nombre}">ASISTENCIAS DEL EQUIPO</h1>
+            </div>
+
+            <div class="seccion-tabla-posiciones">
+                <div class="tabla-contenedor">
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th>POS</th>
+                                <th>JUGADOR</th>
+                                <th>PJ</th>
+                                <th>ASISTENCIAS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="asistente, iter : ${asistentes}">
+                                <td class="resaltar-nombre" th:text="${iter.count}">1</td>
+                                <td class="resaltar-nombre" th:text="${asistente.jugadorNombre}">Nombre Jugador</td>
+                                <td th:text="${asistente.partidosJugados}">0</td>
+                                <td class="resaltar-estadistica" th:text="${asistente.asistencias}">0</td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(asistentes)}">
+                                <td colspan="4" class="tabla-vacia">No hay asistencias registradas para este equipo.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

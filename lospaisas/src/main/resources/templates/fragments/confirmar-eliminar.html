@@ -1,0 +1,12 @@
+
+<div th:fragment="confirmar(url, mensaje)"
+     class="confirmar-eliminar">
+    <form th:action="${url}" method="post">
+        <button type="submit"
+                class="btn btn-danger"
+                th:attr="aria-label=${mensaje}"
+                th:text="${mensaje}">
+            Confirmar eliminación
+        </button>
+    </form>
+</div>

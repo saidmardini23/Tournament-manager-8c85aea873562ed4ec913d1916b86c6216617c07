@@ -1,0 +1,16 @@
+<div th:fragment="errores" class="errores-form"
+     role="alert"
+     th:if="${#fields.hasAnyErrors()}">
+
+    <p class="errores-form-titulo">
+        Por favor, corrige los siguientes errores:
+    </p>
+
+    <ul>
+        <li th:each="error : ${#fields.allErrors()}"
+            th:text="${error}">
+            Error de validación
+        </li>
+    </ul>
+
+</div>

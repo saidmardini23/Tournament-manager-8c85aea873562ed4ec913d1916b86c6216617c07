@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: pagina('Jornada ' + ${jornada.numeroJornada} + ' - ' + ${torneo.nombre}, ~{::contenido})}">
+<body>
+
+<section th:fragment="contenido">
+    <div class="contenedor-menu-equipo">
+        
+        <div class="encabezado-equipo">
+            <a th:href="@{/jornadas(torneoId=${torneo.id})}" class="btn-volver">&lt; Volver a Jornadas</a>
+            <h1 class="titulo-equipo" th:text="'JORNADA ' + ${jornada.numeroJornada}">Jornada 1</h1>
+            <a th:href="@{/admin/jornadas/{id}/opciones(id=${jornada.id})}" class="btn-opciones">&#9881; Opciones</a>
+        </div>
+
+        <div th:replace="~{fragments/mensajes :: mensajes}"></div>
+
+        <div class="tarjeta-info-equipo">
+            <p><strong>Torneo:</strong> <span th:text="${torneo.nombre}">Nombre del Torneo</span></p>
+            <p><strong>Estado:</strong> <span class="estado-torneo" th:text="${torneo.estado}">EN_PROGRESO</span></p>
+        </div>
+
+        <div class="accesos-directos-torneo">
+            <a th:href="@{/admin/partidos/nuevo(jornadaId=${jornada.id})}" class="btn-acceso btn-destacado">
+                + Programar Partido
+            </a>
+        </div>
+
+        <div class="seccion-tabla-posiciones">
+            <h2 class="titulo-tabla">Encuentros Programados</h2>
+            
+            <div class="tabla-contenedor">
+                <table class="tabla">
+                    <thead>
+                        <tr>
+                            <th>FECHA Y HORA</th>
+                            <th>LOCAL</th>
+                            <th>MARCADOR / VS</th>
+                            <th>VISITANTE</th>
+                            <th>ESTADO</th>
+                            <th>ÁRBITRO</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="p : ${partidos}">
+                            <td th:text="${p.fecha != null} ? ${#temporals.format(p.fecha, 'dd/MM/yyyy HH:mm')} : 'Por definir'">01/01/2026 00:00</td>
+                            <td class="resaltar-nombre" th:text="${p.equipoLocalNombre}">Local</td>
+                            <td class="resaltar-estadistica">
+                                <span th:if="${p.estado != null and (p.estado == 'FINALIZADO' or p.estado == 'EN_JUEGO')}"
+                                      th:text="${p.golesLocal} + ' - ' + ${p.golesVisitante}">0 - 0</span>
+                                <span th:unless="${p.estado != null and (p.estado == 'FINALIZADO' or p.estado == 'EN_JUEGO')}">VS</span>
+                            </td>
+                            <td class="resaltar-nombre" th:text="${p.equipoVisitanteNombre}">Visitante</td>
+                            <td>
+                                <span class="estado-torneo" th:text="${p.estado}">PROGRAMADO</span>
+                            </td>
+                            <td th:text="${p.arbitroNombre != null} ? ${p.arbitroNombre} : 'Sin asignar'">Árbitro</td>
+                            <td>
+                                <a th:href="@{/partidos/{id}(id=${p.id})}" class="enlace-accion">Ver Detalle</a>
+                                <a th:href="@{/admin/partidos/{id}/opciones(id=${p.id})}" class="btn-opciones">&#9881;</a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(partidos)}">
+                            <td colspan="7" class="tabla-vacia">No hay partidos registrados en esta jornada. Haz clic en "+ Programar Partido" para agregar el primero.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>

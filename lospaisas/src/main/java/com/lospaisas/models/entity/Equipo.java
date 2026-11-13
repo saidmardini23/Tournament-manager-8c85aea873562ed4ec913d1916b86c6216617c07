@@ -1,0 +1,45 @@
+package com.lospaisas.models.entity;
+
+import java.util.UUID;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Table(name = "equipos")
+@Getter
+@Setter
+public class Equipo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @Column(nullable = false, unique = true)
+    private String nombre;
+
+    @Column(nullable = false)
+    private String entrenador;
+
+    @ManyToOne
+    @JoinColumn(name = "id_torneo")
+    private Torneo torneo;
+
+    public Equipo() {
+    }
+
+    public Equipo(UUID id, String nombre, String entrenador, Torneo torneo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.entrenador = entrenador;
+        this.torneo = torneo;
+    }
+}

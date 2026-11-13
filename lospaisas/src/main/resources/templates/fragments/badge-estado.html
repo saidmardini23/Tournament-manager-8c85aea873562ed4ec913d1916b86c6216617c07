@@ -1,0 +1,6 @@
+<span th:fragment="badge(estado)"
+      class="badge-estado"
+      th:classappend="${estado != null ? #strings.toLowerCase(estado.toString()) : 'desconocido'}"
+      th:text="${estado != null ? estado : 'Desconocido'}">
+    Estado
+</span>

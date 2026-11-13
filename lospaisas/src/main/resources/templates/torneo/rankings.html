@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: pagina((${equipo != null} ? ${equipo.nombre} : ${torneo.nombre}) + ' - ' + (${tab == 'asistencias'} ? 'Asistencias' : 'Goleadores'), ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-rankings-centrado">
+
+            <!-- Encabezado: Redirige al menú del equipo si viene de un equipo, o al del torneo -->
+            <div class="encabezado-seccion">
+                <a th:href="${equipo != null} ? @{/equipos/{id}(id=${equipo.id})} : @{/torneos/{id}(id=${torneo.id})}" 
+                   class="btn-volver">&lt; Volver</a>
+
+                <h1 class="titulo-ranking" 
+                    th:text="(${equipo != null} ? ${equipo.nombre} : ${torneo.nombre}) + ' - ' + (${tab == 'asistencias'} ? 'Asistencias' : 'Goleadores')">
+                    Torneo - Goleadores
+                </h1>
+            </div>
+
+            <!-- Pestañas independientes que mantienen el contexto del equipo si aplica -->
+            <div class="pestanas-rankings">
+                <a th:href="${equipo != null} ? @{/equipos/{id}/goleadores(id=${equipo.id})} : @{/torneos/{id}/rankings(id=${torneo.id}, tab='goleadores')}" 
+                   class="tab-enlace" 
+                   th:classappend="${tab != 'asistencias'} ? 'activo' : ''">
+                    Goleadores
+                </a>
+                <a th:href="${equipo != null} ? @{/equipos/{id}/asistencias(id=${equipo.id})} : @{/torneos/{id}/rankings(id=${torneo.id}, tab='asistencias')}" 
+                   class="tab-enlace" 
+                   th:classappend="${tab == 'asistencias'} ? 'activo' : ''">
+                    Asistencias
+                </a>
+            </div>
+
+            <!-- Tabla de Rankings -->
+            <div class="tabla-contenedor">
+                <table class="tabla">
+                    <thead>
+                        <tr>
+                            <th>POSICIÓN</th>
+                            <th>EQUIPO</th>
+                            <th>JUGADOR</th>
+                            <th>PARTIDOS</th>
+                            <th th:text="${tab == 'asistencias'} ? 'ASISTENCIAS' : 'GOLES'">GOLES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="r, iterStat : ${rankings}">
+                            <td th:text="${iterStat.count}">1</td>
+                            <td th:text="${r.equipoNombre}">Nombre del Equipo</td>
+                            <td th:text="${r.jugadorNombre}">Nombre del Jugador</td>
+                            <td th:text="${r.partidosJugados}">0</td>
+                            <td class="resaltar-estadistica" 
+                                th:text="${tab == 'asistencias'} ? ${r.asistencias} : ${r.goles}">
+                                0
+                            </td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(rankings)}">
+                            <td colspan="5" class="tabla-vacia">
+                                No se encontraron registros de estadísticas para este equipo.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

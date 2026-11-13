@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina('Programar Partido', 'partidos', ~{::contenido})}">
+<body>
+
+<section th:fragment="contenido">
+    <div class="contenedor-formulario-centrado">
+
+        <div class="encabezado-seccion">
+            <a th:if="${jornadaId != null}" th:href="@{/jornadas/{id}(id=${jornadaId})}" class="btn-volver">&lt; Volver</a>
+            <a th:unless="${jornadaId != null}" th:href="@{/partidos}" class="btn-volver">&lt; Volver</a>
+            
+            <h1 class="titulo-formulario">PROGRAMAR PARTIDO</h1>
+        </div>
+
+        <form th:action="@{/admin/partidos/nuevo}"
+              method="post"
+              th:object="${partido}"
+              class="form-equipo">
+
+            <div th:replace="~{fragments/mensajes :: mensajes}"></div>
+
+            <input th:if="${jornadaId != null}" type="hidden" name="jornadaId" th:value="${jornadaId}" />
+
+            <div th:unless="${jornadaId != null}" class="grupo-campo">
+                <label for="jornadaId">Jornada *</label>
+                <select id="jornadaId" name="jornadaId" required class="input-form select-form">
+                    <option value="" disabled th:selected="${partido.jornadaId == null}">-- Seleccione una Jornada --</option>
+                    <option th:each="j : ${jornadas}"
+                            th:value="${j.id}"
+                            th:text="'Jornada ' + ${j.numeroJornada}"
+                            th:selected="${j.id == partido.jornadaId}">
+                        Jornada 1
+                    </option>
+                </select>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="equipoLocalId">Equipo Local *</label>
+                <select id="equipoLocalId" name="equipoLocalId" required class="input-form select-form">
+                    <option value="" disabled th:selected="${partido.equipoLocalId == null}">-- Seleccione Equipo Local --</option>
+                    <option th:each="e : ${equipos}"
+                            th:value="${e.id}"
+                            th:text="${e.nombre}"
+                            th:selected="${e.id == partido.equipoLocalId}">
+                        Equipo Local
+                    </option>
+                </select>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="equipoVisitanteId">Equipo Visitante *</label>
+                <select id="equipoVisitanteId" name="equipoVisitanteId" required class="input-form select-form">
+                    <option value="" disabled th:selected="${partido.equipoVisitanteId == null}">-- Seleccione Equipo Visitante --</option>
+                    <option th:each="e : ${equipos}"
+                            th:value="${e.id}"
+                            th:text="${e.nombre}"
+                            th:selected="${e.id == partido.equipoVisitanteId}">
+                        Equipo Visitante
+                    </option>
+                </select>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="arbitroId">Árbitro Asignado *</label>
+                <select id="arbitroId" name="arbitroId" required class="input-form select-form">
+                    <option value="" disabled th:selected="${partido.arbitroId == null}">-- Seleccione un Árbitro --</option>
+                    <option th:each="a : ${arbitros}"
+                            th:value="${a.id}"
+                            th:text="${a.nombre} + ' ' + ${a.apellido}"
+                            th:selected="${a.id == partido.arbitroId}">
+                        Árbitro
+                    </option>
+                </select>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="fecha">Fecha y Hora *</label>
+                <input type="datetime-local"
+                       id="fecha"
+                       name="fecha"
+                       th:value="${partido.fecha != null} ? ${#temporals.format(partido.fecha, 'yyyy-MM-dd\'T\'HH:mm')} : ''"
+                       required
+                       class="input-form" />
+            </div>
+
+            <div class="pie-formulario">
+                <button type="submit" class="btn-guardar-equipo">PROGRAMAR PARTIDO</button>
+            </div>
+        </form>
+
+    </div>
+</section>
+
+</body>
+</html>

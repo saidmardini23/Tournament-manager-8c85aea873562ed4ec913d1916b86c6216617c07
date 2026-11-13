@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: pagina('Goleadores - ' + ${equipo.nombre}, ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-menu-equipo">
+
+            <div class="encabezado-equipo">
+                <a th:href="@{/equipos/{id}(id=${equipo.id})}" class="btn-volver">&lt; Volver al Equipo</a>
+                <h1 class="titulo-equipo" th:text="'⚽ GOLEADORES - ' + ${equipo.nombre}">GOLEADORES DEL EQUIPO</h1>
+            </div>
+
+            <div class="seccion-tabla-posiciones">
+                <div class="tabla-contenedor">
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th>POS</th>
+                                <th>JUGADOR</th>
+                                <th>PJ</th>
+                                <th>GOLES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="goleador, iter : ${goleadores}">
+                                <td class="resaltar-nombre" th:text="${iter.count}">1</td>
+                                <td class="resaltar-nombre" th:text="${goleador.jugadorNombre}">Nombre Jugador</td>
+                                <td th:text="${goleador.partidosJugados}">0</td>
+                                <td class="resaltar-estadistica" th:text="${goleador.goles}">0</td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(goleadores)}">
+                                <td colspan="4" class="tabla-vacia">No hay goles registrados para este equipo.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

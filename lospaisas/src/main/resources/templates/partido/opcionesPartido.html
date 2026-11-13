@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina('Opciones del Partido', 'partidos', ~{::contenido})}">
+<body>
+
+<section th:fragment="contenido">
+    <div class="contenedor-opciones-centrado">
+        <div class="tarjeta-opciones-torneo">
+            <h2 class="titulo-opciones">OPCIONES DEL PARTIDO</h2>
+
+            <div th:replace="~{fragments/mensajes :: mensajes}"></div>
+
+            <div class="lista-botones-opciones">
+                <a th:href="@{/admin/partidos/{id}/confirmar-eliminar(id=${partido.id})}" class="btn-opcion-menu btn-borrar-opcion">
+                    BORRAR PARTIDO
+                </a>
+
+                <a th:href="@{/partidos/{id}(id=${partido.id})}" class="btn-opcion-menu btn-volver-opcion">
+                    VOLVER
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

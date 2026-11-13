@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: pagina(${equipo.nombre} + ' - Menú del Equipo', ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-menu-equipo">
+
+            <!-- Encabezado con botón Volver al Torneo y Opciones del Equipo -->
+            <div class="encabezado-equipo">
+                <a th:href="${equipo.torneoId != null} ? @{/torneos/{id}(id=${equipo.torneoId})} : @{/torneos}" 
+                   class="btn-volver">&lt; Volver</a>
+
+                <h1 class="titulo-equipo" th:text="${equipo.nombre}">Nombre del Equipo</h1>
+
+                <a th:href="@{/admin/equipos/{id}/opciones(id=${equipo.id})}" class="btn-opciones">
+                    &#9881; Opciones
+                </a>
+            </div>
+
+            <!-- Información del Equipo -->
+            <div class="tarjeta-info-equipo">
+                <p><strong>Entrenador:</strong> <span th:text="${equipo.entrenador}">Nombre del Entrenador</span></p>
+                <p><strong>Torneo:</strong> <span th:text="${equipo.torneoNombre}">Torneo Asociado</span></p>
+            </div>
+
+            <!-- Botones de Acción (Rutas administradas por EquipoWebController) -->
+            <div class="accesos-directos-torneo">
+                
+                <!-- Botón 1: Goleadores del equipo (/equipos/{id}/goleadores) -->
+                <a th:href="@{/equipos/{id}/goleadores(id=${equipo.id})}" class="btn-acceso">
+                    Goleadores
+                </a>
+
+                <!-- Botón 2: Asistencias del equipo (/equipos/{id}/asistencias) -->
+                <a th:href="@{/equipos/{id}/asistencias(id=${equipo.id})}" class="btn-acceso">
+                    Asistencias
+                </a>
+
+                <!-- Botón 3: Crear Jugador -->
+                <a th:href="@{/admin/jugadores/nuevo(equipoId=${equipo.id})}" class="btn-acceso btn-destacado">
+                    + Crear Jugador
+                </a>
+            </div>
+
+            <!-- Buscador por nombre de jugador -->
+            <form th:action="@{/equipos/{id}(id=${equipo.id})}" method="get" class="form-buscador-equipo">
+                <div class="campo-busqueda">
+                    <input type="text" 
+                           name="buscar" 
+                           th:value="${buscar}" 
+                           placeholder="Buscar jugador por nombre..." 
+                           class="input-busqueda" />
+                    <button type="submit" class="btn-buscar">Buscar</button>
+                </div>
+            </form>
+
+            <!-- Plantilla / Lista de Jugadores -->
+            <div class="seccion-tabla-posiciones">
+                <h2 class="titulo-tabla">Plantilla de Jugadores</h2>
+
+                <div class="tabla-contenedor">
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th>Nº</th>
+                                <th>JUGADOR</th>
+                                <th>POSICIÓN EN CAMPO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="j, iterStat : ${jugadores}">
+                                <td th:text="${iterStat.count}">1</td>
+                                <td>
+                                    <!-- Redirección directa al menú individual del jugador -->
+                                    <a th:href="@{/jugadores/{id}(id=${j.id})}" 
+                                       class="enlace-equipo" 
+                                       th:text="${j.nombre}">
+                                        Nombre del Jugador
+                                    </a>
+                                </td>
+                                <td th:text="${j.posicion}">Delantero</td>
+                            </tr>
+
+                            <tr th:if="${#lists.isEmpty(jugadores)}">
+                                <td colspan="3" class="tabla-vacia">
+                                    No se encontraron jugadores registrados en este equipo.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

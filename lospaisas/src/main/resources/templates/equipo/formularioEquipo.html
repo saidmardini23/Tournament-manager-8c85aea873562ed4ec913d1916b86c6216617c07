@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${esEdicion} ? 'Actualizar Equipo - Los Paisas' : 'Crear Equipo - Los Paisas'">Formulario Equipo</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+
+    <div class="contenedor-formulario-centrado">
+
+        <!-- Encabezado con botones de navegación independientes según el contexto -->
+        <div class="encabezado-seccion">
+            <a th:if="${esEdicion}" th:href="@{/equipos/{id}(id=${equipoId})}" class="btn-volver">&lt; Volver</a>
+            <a th:if="${!esEdicion and torneoId != null}" th:href="@{/torneos/{id}(id=${torneoId})}" class="btn-volver">&lt; Volver</a>
+            <a th:if="${!esEdicion and torneoId == null}" th:href="@{/torneos}" class="btn-volver">&lt; Volver</a>
+
+            <h1 class="titulo-formulario" th:text="${esEdicion} ? 'ACTUALIZAR EQUIPO' : 'CREAR EQUIPO'">CREAR EQUIPO</h1>
+        </div>
+
+        <!-- FORMULARIO EN MODO EDICIÓN -->
+        <form th:if="${esEdicion}" th:action="@{/admin/equipos/{id}/editar(id=${equipoId})}" method="post" class="form-equipo">
+
+            <div th:if="${error}" class="mensaje-error" th:text="${error}">Ocurrió un error.</div>
+
+            <div class="grupo-campo">
+                <label for="nombre-edit">Nombre del Equipo *</label>
+                <input type="text" id="nombre-edit" name="nombre" th:value="${equipo.nombre}" required minlength="3" maxlength="50" class="input-form" placeholder="Nombre del equipo" />
+            </div>
+
+            <div class="grupo-campo">
+                <label for="entrenador-edit">Entrenador *</label>
+                <input type="text" id="entrenador-edit" name="entrenador" th:value="${equipo.entrenador}" required minlength="3" maxlength="80" class="input-form" placeholder="Nombre del entrenador" />
+            </div>
+
+            <input th:if="${torneoId != null}" type="hidden" name="torneoId" th:value="${torneoId}" />
+
+            <div th:unless="${torneoId != null}" class="grupo-campo">
+                <label for="torneoId-edit">Torneo *</label>
+                <select id="torneoId-edit" name="torneoId" required class="input-form select-form">
+                    <option value="" disabled th:selected="${equipo.torneoId == null}">-- Seleccione un Torneo --</option>
+                    <option th:each="t : ${torneos}" 
+                            th:value="${t.id}" 
+                            th:text="${t.nombre}" 
+                            th:selected="${t.id == equipo.torneoId}">
+                        Torneo
+                    </option>
+                </select>
+            </div>
+
+            <div class="pie-formulario">
+                <button type="submit" class="btn-guardar-equipo">ACTUALIZAR EQUIPO</button>
+            </div>
+
+        </form>
+
+        <!-- FORMULARIO EN MODO CREACIÓN -->
+        <form th:unless="${esEdicion}" th:action="@{/admin/equipos/nuevo}" method="post" class="form-equipo">
+
+            <div th:if="${error}" class="mensaje-error" th:text="${error}">Ocurrió un error.</div>
+
+            <div class="grupo-campo">
+                <label for="nombre-nuevo">Nombre del Equipo *</label>
+                <input type="text" id="nombre-nuevo" name="nombre" th:value="${equipo.nombre}" required minlength="3" maxlength="50" class="input-form" placeholder="Nombre del equipo" />
+            </div>
+
+            <div class="grupo-campo">
+                <label for="entrenador-nuevo">Entrenador *</label>
+                <input type="text" id="entrenador-nuevo" name="entrenador" th:value="${equipo.entrenador}" required minlength="3" maxlength="80" class="input-form" placeholder="Nombre del entrenador" />
+            </div>
+
+            <input th:if="${torneoId != null}" type="hidden" name="torneoId" th:value="${torneoId}" />
+
+            <div th:unless="${torneoId != null}" class="grupo-campo">
+                <label for="torneoId-nuevo">Torneo *</label>
+                <select id="torneoId-nuevo" name="torneoId" required class="input-form select-form">
+                    <option value="" disabled th:selected="${equipo.torneoId == null}">-- Seleccione un Torneo --</option>
+                    <option th:each="t : ${torneos}" 
+                            th:value="${t.id}" 
+                            th:text="${t.nombre}" 
+                            th:selected="${t.id == equipo.torneoId}">
+                        Torneo
+                    </option>
+                </select>
+            </div>
+
+            <div class="pie-formulario">
+                <button type="submit" class="btn-guardar-equipo">CREAR EQUIPO</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

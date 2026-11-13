@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<body>
+
+    <!-- Navbar Balanceada: Botón Torneos (Izquierda) - Logo (Centro) - Admin/Dashboard (Derecha) -->
+    <nav class="navbar" th:fragment="navbar">
+        <div class="navbar-contenedor navbar-balanceado">
+            
+            <!-- Enlace Izquierda: Lista de Torneos -->
+            <div class="navbar-seccion navbar-izquierda">
+                <a th:href="@{/torneos}" class="btn-nav">
+                      LISTA DE TORNEOS
+                </a>
+            </div>
+
+            <!-- Centro: Logo Imagen -->
+            <div class="navbar-seccion navbar-centro">
+                <a class="navbar-logo" th:href="@{/}" aria-label="Inicio">
+                    <img th:src="@{/img/logo.svg}"
+                         alt="Los Paisas - Tournament Manager"
+                         class="navbar-logo-img">
+                </a>
+            </div>
+
+            <!-- Enlace Derecha: Dashboard / Admin -->
+            <div class="navbar-seccion navbar-derecha">
+                <a th:href="@{/admin}" class="btn-nav btn-nav-admin">
+                     ADMINISTRACION
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+</body>
+</html>

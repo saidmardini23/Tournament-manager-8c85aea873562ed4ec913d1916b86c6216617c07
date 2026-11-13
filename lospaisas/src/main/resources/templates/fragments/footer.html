@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <!-- Fragmento footer compacto -->
+    <footer th:fragment="footer" class="lp-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="brand-name">Los Paisas</span>
+                <span class="brand-tagline">| Sistema de Gestión de Torneos</span>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span th:text="${#temporals.createNow().year}">2026</span> Los Paisas. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

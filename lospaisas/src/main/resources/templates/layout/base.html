@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="pagina(titulo, contenido)">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo} + ' | Tournament Manager'">
+        Tournament Manager
+    </title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragments/navbar :: navbar}"></header>
+
+    <main id="contenido-principal">
+        <th:block th:replace="${contenido}">
+            Contenido principal
+        </th:block>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

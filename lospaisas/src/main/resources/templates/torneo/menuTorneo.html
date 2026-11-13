@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: pagina(${torneo.nombre}, ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-menu-torneo">
+
+            <div class="encabezado-torneo">
+                <a th:href="@{/torneos}" class="btn-volver">&lt; Volver</a>
+                <h1 class="titulo-equipo" th:text="${torneo.nombre}">Nombre del Torneo</h1>
+                <a th:href="@{/admin/torneos/{id}/opciones(id=${torneo.id})}" class="btn-opciones">&#9881; Opciones</a>
+            </div>
+
+            <div class="tarjeta-info-torneo">
+                <p><strong>Estado:</strong> <span th:text="${torneo.estado}">ESTADO</span></p>
+                <p><strong>Formato:</strong> <span th:text="${torneo.formato}">FORMATO</span></p>
+            </div>
+
+            <!-- Accesos directos con la ruta actualizada a las Jornadas -->
+            <div class="accesos-directos-torneo">
+                <a th:href="@{/jornadas(torneoId=${torneo.id})}" class="btn-acceso">Calendario / Jornadas</a>
+                <a th:href="@{/admin/equipos/nuevo(torneoId=${torneo.id})}" class="btn-acceso btn-destacado">+ Registrar Equipo</a>
+            </div>
+
+            <!-- Tabla de Posiciones Completa -->
+            <div class="seccion-tabla-posiciones">
+                <h2 class="titulo-tabla">Tabla de Posiciones</h2>
+
+                <div class="tabla-contenedor">
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th>POS</th>
+                                <th>EQUIPO</th>
+                                <th>PJ</th>
+                                <th>PG</th>
+                                <th>PE</th>
+                                <th>PP</th>
+                                <th>GF</th>
+                                <th>GC</th>
+                                <th>DG</th>
+                                <th>PTS</th>
+                                <th>ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="pos, iter : ${tablaPosiciones}">
+                                <td class="resaltar-nombre" th:text="${iter.count}">1</td>
+                                <td class="resaltar-nombre" th:text="${pos.equipoNombre}">Nombre Equipo</td>
+                                <td th:text="${pos.partidosJugados}">0</td>
+                                <td th:text="${pos.partidosGanados}">0</td>
+                                <td th:text="${pos.partidosEmpatados}">0</td>
+                                <td th:text="${pos.partidosPerdidos}">0</td>
+                                <td th:text="${pos.golesFavor}">0</td>
+                                <td th:text="${pos.golesContra}">0</td>
+                                <td th:text="${pos.diferenciaGoles}">0</td>
+                                <td class="resaltar-estadistica" th:text="${pos.puntos}">0</td>
+                                <td>
+                                    <a th:href="@{/equipos/{id}(id=${pos.equipoId})}" class="enlace-accion">Ver Equipo</a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(tablaPosiciones)}">
+                                <td colspan="11" class="tabla-vacia">No hay equipos registrados en este torneo.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

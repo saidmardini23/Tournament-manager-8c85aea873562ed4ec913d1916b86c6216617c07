@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: pagina(${jugador.nombre} + ' - ' + ${jugador.posicion}, ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-menu-equipo">
+
+            <div class="encabezado-equipo">
+                <a th:href="${jugador.equipoId != null} ? @{/equipos/{id}(id=${jugador.equipoId})} : @{/torneos}" class="btn-volver">&lt; Volver</a>
+                <h1 class="titulo-equipo" th:text="${jugador.nombre} + ' - ' + ${jugador.posicion}">Nombre - Posición</h1>
+                <a th:href="@{/admin/jugadores/{id}/opciones(id=${jugador.id})}" class="btn-opciones">&#9881; Opciones</a>
+            </div>
+
+            <div class="tarjeta-info-equipo">
+                <p><strong>Equipo actual:</strong> <span th:text="${jugador.equipoNombre != null ? jugador.equipoNombre : 'Sin equipo'}">Nombre del Equipo</span></p>
+            </div>
+
+            <div class="seccion-tabla-posiciones">
+                <h2 class="titulo-tabla">Estadísticas Acumuladas</h2>
+
+                <div class="tabla-contenedor">
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th>PARTIDOS JUGADOS</th>
+                                <th>GOLES</th>
+                                <th>ASISTENCIAS</th>
+                                <th>AMARILLAS</th>
+                                <th>ROJAS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${estadisticas != null}">
+                                <td class="resaltar-estadistica" th:text="${estadisticas.partidosJugados}">0</td>
+                                <td class="resaltar-estadistica" th:text="${estadisticas.goles}">0</td>
+                                <td class="resaltar-estadistica" th:text="${estadisticas.asistencias}">0</td>
+                                <td th:text="${estadisticas.tarjetasAmarillas}">0</td>
+                                <td th:text="${estadisticas.tarjetasRojas}">0</td>
+                            </tr>
+                            <tr th:if="${estadisticas == null}">
+                                <td colspan="5" class="tabla-vacia">Sin estadísticas acumuladas en este torneo.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

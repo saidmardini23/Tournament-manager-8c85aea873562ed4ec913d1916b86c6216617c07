@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina('Confirmar Eliminación de Jornada', 'jornadas', ~{::contenido})}">
+<body>
+<section th:fragment="contenido">
+    <div class="contenedor-confirmacion-centrado">
+        <div class="caja-confirmacion">
+            <h2 class="pregunta-confirmacion" th:text="'¿Está seguro de eliminar la Jornada ' + ${jornada.numeroJornada} + '?'">
+                ¿Está seguro de eliminar esta jornada?
+            </h2>
+
+            <div class="acciones-confirmacion">
+                <!-- Botón SÍ: Envía la petición POST de borrado -->
+                <form th:action="@{/admin/jornadas/{id}/eliminar(id=${jornada.id})}" method="post">
+                    <button type="submit" class="btn-confirmar-si">SI</button>
+                </form>
+
+                <!-- Botón NO: Regresa a la jornada -->
+                <a th:href="@{/jornadas/{id}(id=${jornada.id})}" class="btn-confirmar-no">NO</a>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

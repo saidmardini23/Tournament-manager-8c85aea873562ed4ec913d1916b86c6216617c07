@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina('Opciones del Árbitro', 'arbitros', ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-opciones-centrado">
+
+            <div class="tarjeta-opciones-torneo">
+                <h2 class="titulo-opciones" th:text="'OPCIONES: ' + ${arbitro.nombre} + ' ' + ${arbitro.apellido}">
+                    Opciones del Árbitro
+                </h2>
+
+                <div class="lista-botones-opciones">
+                    <!-- Editar Árbitro -->
+                    <a th:href="@{/admin/arbitros/{id}/editar(id=${arbitro.id})}" class="btn-opcion-menu btn-editar-opcion">
+                        EDITAR ÁRBITRO
+                    </a>
+
+                    <!-- Borrar Árbitro (Abre confirmación HTML) -->
+                    <a th:href="@{/admin/arbitros/{id}/confirmar-eliminar(id=${arbitro.id})}" class="btn-opcion-menu btn-borrar-opcion">
+                        BORRAR ÁRBITRO
+                    </a>
+
+                    <!-- Volver al menú del árbitro -->
+                    <a th:href="@{/arbitros/{id}(id=${arbitro.id})}" class="btn-opcion-menu btn-volver-opcion">
+                        VOLVER
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

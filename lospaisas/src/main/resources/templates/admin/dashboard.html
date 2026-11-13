@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina('Dashboard de Administración', 'dashboard', ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-torneos-centrado">
+
+            <div class="encabezado-seccion">
+                <h1 class="titulo-formulario">PANEL DE ADMINISTRACIÓN</h1>
+                <a th:href="@{/torneos}" class="btn-volver">&lt; Ver Vista Pública</a>
+            </div>
+
+            <div class="accesos-directos-torneo">
+                <a th:href="@{/admin/torneos/nuevo}" class="btn-acceso btn-destacado">+ Nuevo Torneo</a>
+                <a th:href="@{/torneos}" class="btn-acceso">Gestión Torneos / Equipos</a>
+                <a th:href="@{/arbitros}" class="btn-acceso">Gestión Árbitros</a>
+            </div>
+
+            <div class="grid-metricas">
+                <div class="tarjeta-metrica">
+                    <span class="titulo-metrica">Torneos Registrados</span>
+                    <span class="valor-metrica" th:text="${totalTorneos}">0</span>
+                </div>
+                <div class="tarjeta-metrica">
+                    <span class="titulo-metrica">Equipos Registrados</span>
+                    <span class="valor-metrica" th:text="${totalEquipos}">0</span>
+                </div>
+                <div class="tarjeta-metrica">
+                    <span class="titulo-metrica">Jugadores Registrados</span>
+                    <span class="valor-metrica" th:text="${totalJugadores}">0</span>
+                </div>
+                <div class="tarjeta-metrica">
+                    <span class="titulo-metrica">Total Partidos</span>
+                    <span class="valor-metrica" th:text="${totalPartidos}">0</span>
+                </div>
+            </div>
+
+            <div class="seccion-tabla-posiciones">
+                <h2 class="titulo-tabla">Próximos Partidos Programados</h2>
+
+                <div class="tabla-contenedor">
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th>FECHA Y HORA</th>
+                                <th>EQUIPO LOCAL</th>
+                                <th>EQUIPO VISITANTE</th>
+                                <th>ESTADO</th>
+                                <th>ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="p : ${proximosPartidos}">
+                                <td th:text="${p.fecha != null} ? ${#temporals.format(p.fecha, 'dd/MM/yyyy HH:mm')} : 'Por definir'">01/01/2026 00:00</td>
+                                <td class="resaltar-nombre" th:text="${p.equipoLocalNombre}">Local</td>
+                                <td class="resaltar-nombre" th:text="${p.equipoVisitanteNombre}">Visitante</td>
+                                <td>
+                                    <span class="estado-torneo" th:text="${p.estado}">PROGRAMADO</span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/partidos/{id}(id=${p.id})}" class="enlace-accion">Ver Detalles</a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(proximosPartidos)}">
+                                <td colspan="5" class="tabla-vacia">No hay partidos programados próximamente.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

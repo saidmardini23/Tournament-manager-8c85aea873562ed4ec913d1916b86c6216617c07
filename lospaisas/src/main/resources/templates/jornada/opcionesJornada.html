@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina('Opciones de la Jornada', 'jornadas', ~{::contenido})}">
+<body>
+<section th:fragment="contenido">
+    <div class="contenedor-opciones-centrado">
+        <div class="tarjeta-opciones-torneo">
+            <h2 class="titulo-opciones" th:text="'OPCIONES: JORNADA ' + ${jornada.numeroJornada}">
+                Opciones de la Jornada
+            </h2>
+
+            <div th:if="${error}" class="mensaje-error" style="margin-top: 1rem;" th:text="${error}"></div>
+
+            <div class="lista-botones-opciones">
+                <!-- Editar Jornada -->
+                <a th:href="@{/admin/jornadas/{id}/editar(id=${jornada.id})}"
+                   class="btn-opcion-menu btn-editar-opcion">
+                    EDITAR JORNADA
+                </a>
+
+                <!-- Borrar Jornada (Abre pantalla de confirmación) -->
+                <a th:href="@{/admin/jornadas/{id}/confirmar-eliminar(id=${jornada.id})}"
+                   class="btn-opcion-menu btn-borrar-opcion">
+                    BORRAR JORNADA
+                </a>
+
+                <!-- Volver al menú de la jornada -->
+                <a th:href="@{/jornadas/{id}(id=${jornada.id})}"
+                   class="btn-opcion-menu btn-volver-opcion">
+                    VOLVER
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

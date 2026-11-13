@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina(${esEdicion} ? 'Actualizar Torneo' : 'Crear Torneo', 'torneos', ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-formulario-centrado">
+
+            <div class="encabezado-seccion">
+                <a th:href="${esEdicion} ? @{/torneos/{id}(id=${torneoId})} : @{/torneos}" class="btn-volver">&lt; Volver</a>
+                <h1 class="titulo-formulario" th:text="${esEdicion} ? 'ACTUALIZAR TORNEO' : 'CREAR TORNEO'">CREAR TORNEO</h1>
+            </div>
+
+            <form th:action="${esEdicion} ? @{/admin/torneos/{id}/editar(id=${torneoId})} : @{/admin/torneos/nuevo}" method="post" class="form-torneo">
+
+                <div th:if="${error}" class="mensaje-error" th:text="${error}">Ocurrió un error.</div>
+
+                <div class="grupo-campo">
+                    <label for="nombre">Nombre del Torneo *</label>
+                    <input type="text" id="nombre" name="nombre" th:value="${torneo.nombre}" required minlength="3" maxlength="100" class="input-form" />
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" name="descripcion" th:text="${torneo.descripcion}" maxlength="500" class="textarea-form"></textarea>
+                </div>
+
+                <div class="filabras-fechas">
+                    <div class="grupo-campo">
+                        <label for="fechaInicio">Fecha Inicio *</label>
+                        <input type="date" id="fechaInicio" name="fechaInicio" th:value="${torneo.fechaInicio}" required class="input-form" />
+                    </div>
+                    <div class="grupo-campo">
+                        <label for="fechaFin">Fecha Fin</label>
+                        <input type="date" id="fechaFin" name="fechaFin" th:value="${torneo.fechaFin}" class="input-form" />
+                    </div>
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="estado">Estado *</label>
+                    <select id="estado" name="estado" required class="input-form select-form">
+                        <option value="PLANIFICADO" th:selected="${torneo.estado == 'PLANIFICADO'}">PLANIFICADO</option>
+                        <option value="EN_PROGRESO" th:selected="${torneo.estado == 'EN_PROGRESO'}">EN PROGRESO</option>
+                        <option value="FINALIZADO" th:selected="${torneo.estado == 'FINALIZADO'}">FINALIZADO</option>
+                    </select>
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="formato">Formato *</label>
+                    <select id="formato" name="formato" required class="input-form select-form">
+                        <option value="LIGA" th:selected="${torneo.formato == 'LIGA'}">LIGA</option>
+                        <option value="ELIMINACION_DIRECTA" th:selected="${torneo.formato == 'ELIMINACION_DIRECTA'}">ELIMINACIÓN DIRECTA</option>
+                    </select>
+                </div>
+
+                <div class="pie-formulario">
+                    <button type="submit" class="btn-guardar-torneo" th:text="${esEdicion} ? 'ACTUALIZAR TORNEO' : 'CREAR TORNEO'">CREAR TORNEO</button>
+                </div>
+
+            </form>
+
+        </div>
+    </section>
+
+</body>
+</html>

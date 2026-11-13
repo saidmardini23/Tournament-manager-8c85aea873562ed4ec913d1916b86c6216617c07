@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina(${esEdicion} ? 'Actualizar Árbitro' : 'Crear Árbitro', 'arbitros', ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-formulario-centrado">
+
+            <div class="encabezado-seccion">
+                <a th:href="${esEdicion} ? @{/arbitros/{id}(id=${arbitroId})} : @{/arbitros}" class="btn-volver">&lt; Volver</a>
+                <h1 class="titulo-formulario" th:text="${esEdicion} ? 'ACTUALIZAR ÁRBITRO' : 'CREAR ÁRBITRO'">CREAR ÁRBITRO</h1>
+            </div>
+
+            <form th:action="${esEdicion} ? @{/admin/arbitros/{id}/editar(id=${arbitroId})} : @{/admin/arbitros/nuevo}" method="post" class="form-torneo">
+
+                <div th:if="${error}" class="mensaje-error" th:text="${error}">Ocurrió un error.</div>
+
+                <div class="grupo-campo">
+                    <label for="nombre">Nombre *</label>
+                    <input type="text" id="nombre" name="nombre" th:value="${arbitro.nombre}" required minlength="2" maxlength="50" class="input-form" />
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="apellido">Apellido *</label>
+                    <input type="text" id="apellido" name="apellido" th:value="${arbitro.apellido}" required minlength="2" maxlength="50" class="input-form" />
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="experiencia">Años de Experiencia *</label>
+                    <input type="number" id="experiencia" name="experiencia" th:value="${arbitro.experiencia}" required min="0" max="60" class="input-form" />
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="licencia">Licencia</label>
+                    <input type="text" id="licencia" name="licencia" th:value="${arbitro.licencia}" maxlength="30" class="input-form" />
+                </div>
+
+                <div class="pie-formulario">
+                    <button type="submit" class="btn-guardar-torneo" th:text="${esEdicion} ? 'ACTUALIZAR ÁRBITRO' : 'CREAR ÁRBITRO'">CREAR ÁRBITRO</button>
+                </div>
+
+            </form>
+
+        </div>
+    </section>
+
+</body>
+</html>

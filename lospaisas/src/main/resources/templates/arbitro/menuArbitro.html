@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina(${arbitro.nombre} + ' ' + ${arbitro.apellido}, 'arbitros', ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-menu-equipo">
+
+            <div class="encabezado-equipo">
+                <a th:href="@{/arbitros}" class="btn-volver">&lt; Volver</a>
+                <h1 class="titulo-equipo" th:text="${arbitro.nombre} + ' ' + ${arbitro.apellido}">Nombre del Árbitro</h1>
+                <a th:href="@{/admin/arbitros/{id}/opciones(id=${arbitro.id})}" class="btn-opciones">&#9881; Opciones</a>
+            </div>
+
+            <div class="tarjeta-info-equipo">
+                <div class="detalles-equipo-grid">
+                    <p><strong>Años de Experiencia:</strong> <span th:text="${arbitro.experiencia != null ? arbitro.experiencia + ' años' : '0 años'}">0 años</span></p>
+                    <p><strong>Licencia Oficial:</strong> <span th:text="${arbitro.licencia != null && !arbitro.licencia.isEmpty() ? arbitro.licencia : 'No especificada'}">Licencia</span></p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

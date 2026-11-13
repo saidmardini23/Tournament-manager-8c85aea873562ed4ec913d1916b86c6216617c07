@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina('Opciones del Torneo', 'torneos', ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-opciones-centrado">
+
+            <div class="tarjeta-opciones-torneo">
+                <h2 class="titulo-opciones" th:text="'OPCIONES: ' + ${torneo.nombre}">Opciones del Torneo</h2>
+
+                <div class="lista-botones-opciones">
+                    <!-- Editar Torneo -->
+                    <a th:href="@{/admin/torneos/{id}/editar(id=${torneo.id})}" class="btn-opcion-menu btn-editar-opcion">
+                        EDITAR TORNEO
+                    </a>
+
+                    <!-- Borrar Torneo (Abre la pantalla HTML de confirmación) -->
+                    <a th:href="@{/admin/torneos/{id}/confirmar-eliminar(id=${torneo.id})}" class="btn-opcion-menu btn-borrar-opcion">
+                        BORRAR TORNEO
+                    </a>
+
+                    <!-- Volver al menú del torneo -->
+                    <a th:href="@{/torneos/{id}(id=${torneo.id})}" class="btn-opcion-menu btn-volver-opcion">
+                        VOLVER
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

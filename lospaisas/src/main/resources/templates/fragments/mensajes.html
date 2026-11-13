@@ -1,0 +1,16 @@
+
+<div th:fragment="mensajes" class="mensajes-contenedor" aria-live="polite">
+
+    <div th:if="${exito != null}"
+         class="mensaje mensaje-exito"
+         role="status">
+        <span th:text="${exito}">Operación realizada correctamente.</span>
+    </div>
+
+    <div th:if="${error != null}"
+         class="mensaje mensaje-error"
+         role="alert">
+        <span th:text="${error}">Ha ocurrido un error.</span>
+    </div>
+
+</div>

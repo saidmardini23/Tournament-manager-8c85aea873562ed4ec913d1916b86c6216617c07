@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: pagina('Lista de Torneos', ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-torneos-centrado">
+
+            <div class="encabezado-seccion">
+                <a th:href="@{/admin}" class="btn-volver">&lt; Volver</a>
+                <h1 class="titulo-formulario">TORNEOS</h1>
+                <a th:href="@{/admin/torneos/nuevo}" class="btn-acceso btn-destacado">+ Crear Torneo</a>
+            </div>
+
+            <form th:action="@{/torneos}" method="get" class="form-buscador-equipo">
+                <div class="campo-busqueda">
+                    <input type="text" name="buscar" th:value="${buscar}" placeholder="Buscar torneo por nombre..." class="input-busqueda" />
+                    <button type="submit" class="btn-buscar">Buscar</button>
+                </div>
+            </form>
+
+            <div class="lista-torneos-columna">
+                <div th:each="t : ${torneos}" class="item-torneo-columna">
+                    <a th:href="@{/torneos/{id}(id=${t.id})}" class="enlace-menu-torneo">
+                        <span class="nombre-torneo" th:text="${t.nombre}">Nombre</span>
+                        <span class="estado-torneo" th:text="${t.estado}">ESTADO</span>
+                    </a>
+                </div>
+
+                <div th:if="${#lists.isEmpty(torneos)}" class="tabla-vacia">
+                    No se encontraron torneos registrados.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

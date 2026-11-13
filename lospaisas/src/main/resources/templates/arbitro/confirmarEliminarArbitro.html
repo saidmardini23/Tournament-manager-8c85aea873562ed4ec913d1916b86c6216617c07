@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina('Confirmar Eliminación de Árbitro', 'arbitros', ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-confirmacion-centrado">
+
+            <div class="caja-confirmacion">
+                <h2 class="pregunta-confirmacion">¿Está seguro de eliminar este árbitro?</h2>
+
+                <div class="acciones-confirmacion">
+                    <!-- Botón SÍ: Procesa la eliminación física mediante POST -->
+                    <form th:action="@{/admin/arbitros/{id}/eliminar(id=${arbitro.id})}" method="post">
+                        <button type="submit" class="btn-confirmar-si">SI</button>
+                    </form>
+
+                    <!-- Botón NO: Regresa al menú del árbitro -->
+                    <a th:href="@{/arbitros/{id}(id=${arbitro.id})}" class="btn-confirmar-no">NO</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

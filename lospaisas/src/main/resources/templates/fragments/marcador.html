@@ -1,0 +1,17 @@
+<div th:fragment="marcador(partido)" class="marcador">
+    <span class="marcador-equipo"
+          th:text="${partido.equipoLocalNombre}">
+        Equipo local
+    </span>
+
+    <strong class="marcador-resultado">
+        <span th:text="${partido.golesLocal}">0</span>
+        -
+        <span th:text="${partido.golesVisitante}">0</span>
+    </strong>
+
+    <span class="marcador-equipo"
+          th:text="${partido.equipoVisitanteNombre}">
+        Equipo visitante
+    </span>
+</div>

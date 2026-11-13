@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina('Confirmar Eliminación de Partido', 'partidos', ~{::contenido})}">
+<body>
+
+<section th:fragment="contenido">
+    <div class="contenedor-confirmacion-centrado">
+        <div class="caja-confirmacion">
+            <h2 class="pregunta-confirmacion">¿Está seguro de eliminar este partido?</h2>
+
+            <div class="acciones-confirmacion">
+                <form th:action="@{/admin/partidos/{id}/eliminar(id=${partido.id})}" method="post">
+                    <button type="submit" class="btn-confirmar-si">SI</button>
+                </form>
+
+                <a th:href="@{/partidos/{id}(id=${partido.id})}" class="btn-confirmar-no">NO</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

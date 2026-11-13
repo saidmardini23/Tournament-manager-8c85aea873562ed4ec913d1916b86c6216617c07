@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina(${esEdicion} ? 'Actualizar Jugador' : 'Crear Jugador', 'jugadores', ~{::contenido})}">
+<body>
+
+    <section th:fragment="contenido">
+        <div class="contenedor-formulario-centrado">
+
+            <div class="encabezado-seccion">
+                <a th:href="${esEdicion} ? @{/jugadores/{id}(id=${jugadorId})} : (${equipoId != null} ? @{/equipos/{id}(id=${equipoId})} : @{/torneos})"
+                   class="btn-volver">&lt; Volver</a>
+                <h1 class="titulo-formulario"
+                    th:text="${esEdicion} ? 'ACTUALIZAR JUGADOR' : 'CREAR JUGADOR'">CREAR JUGADOR</h1>
+            </div>
+
+            <!-- ÚNICO FORMULARIO -->
+            <form th:action="${esEdicion} ? @{/admin/jugadores/{id}/editar(id=${jugadorId})} : @{/admin/jugadores/nuevo}"
+                  method="post"
+                  class="form-torneo">
+
+                <div th:if="${error}" class="mensaje-error" th:text="${error}">Ocurrió un error.</div>
+
+                <!-- Campo Nombre -->
+                <div class="grupo-campo">
+                    <label for="nombre">Nombre *</label>
+                    <input type="text"
+                           id="nombre"
+                           name="nombre"
+                           th:value="${jugador != null ? jugador.nombre : ''}"
+                           required
+                           minlength="2"
+                           maxlength="50"
+                           placeholder="Escribe el nombre"
+                           class="input-form" />
+                </div>
+
+                <!-- Campo Apellido -->
+                <div class="grupo-campo">
+                    <label for="apellido">Apellido *</label>
+                    <input type="text"
+                           id="apellido"
+                           name="apellido"
+                           th:value="${jugador != null ? jugador.apellido : ''}"
+                           required
+                           minlength="2"
+                           maxlength="50"
+                           placeholder="Escribe el apellido"
+                           class="input-form" />
+                </div>
+
+                <!-- Campo equipoId: Oculto si viene en la URL, Desplegable si no viene -->
+                <input th:if="${equipoId != null}"
+                       type="hidden"
+                       name="equipoId"
+                       th:value="${equipoId}" />
+
+                <div th:unless="${equipoId != null}" class="grupo-campo">
+                    <label for="equipoId">Equipo *</label>
+                    <select id="equipoId"
+                            name="equipoId"
+                            required
+                            class="input-form select-form">
+                        <option value="" disabled th:selected="${equipoId == null}">
+                            -- Seleccione un Equipo --
+                        </option>
+                        <option th:each="e : ${equipos}"
+                                th:value="${e.id}"
+                                th:text="${e.nombre}"
+                                th:selected="${e.id == equipoId}">
+                            Equipo
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Selección de Posición -->
+                <div class="grupo-campo">
+                    <label for="posicion">Posición *</label>
+                    <select id="posicion"
+                            name="posicion"
+                            required
+                            class="input-form select-form">
+                        <option th:each="pos : ${posiciones}"
+                                th:value="${pos}"
+                                th:text="${pos}"
+                                th:selected="${pos == posicionSeleccionada}">
+                            POSICION
+                        </option>
+                    </select>
+                </div>
+
+                <div class="pie-formulario">
+                    <button type="submit"
+                            class="btn-guardar-torneo"
+                            th:text="${esEdicion} ? 'ACTUALIZAR JUGADOR' : 'CREAR JUGADOR'">
+                        CREAR JUGADOR
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </section>
+
+</body>
+</html>

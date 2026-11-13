@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: pagina('Inicio', ~{::contenido})}">
+<body>
+
+    <!-- Bloque de contenido sin imágenes -->
+    <section th:fragment="contenido">
+        
+        <div class="contenedor-index">
+            <div class="tarjeta-index">
+                
+                <!-- Encabezado sin logo ni imagen -->
+                <div class="encabezado-index">
+                    <h1>Los Paisas</h1>
+                    <p class="subtitulo">Sistema de Gestión de Torneos de Fútbol</p>
+                </div>
+
+                <!-- Selector decorativo de rol -->
+                <div class="seccion-decorativa-rol">
+                    <span class="etiqueta-rol">Modo de Vista (Decorativo):</span>
+                    <div class="selector-rol-decorativo">
+                        <span class="btn-rol activo">Usuario</span>
+                    </div>
+                </div>
+
+                <hr class="divisor" />
+
+                <!-- Enlace principal hacia torneos -->
+                <div class="acciones-index">
+                    <a th:href="@{/torneos}" class="btn-index btn-torneo">
+                        Torneos
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+</body>
+</html>

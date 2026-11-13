@@ -1,0 +1,37 @@
+### Archivos generados y carpetas de build ###
+**/target/
+target/
+**/.mvn/wrapper/maven-wrapper.jar
+**/HELP.md
+
+### STS / Eclipse ###
+**/.apt_generated
+**/.classpath
+**/.factorypath
+**/.project
+**/.settings/
+**/.springBeans
+**/.sts4-cache
+
+### IntelliJ IDEA ###
+**/.idea/
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+**/nbproject/private/
+**/nbbuild/
+**/dist/
+**/nbdist/
+**/.nb-gradle/
+**/build/
+
+### VS Code ###
+**/.vscode/
+
+### Spring Boot Secrets ###
+**/src/main/resources/application.properties
+
+# Excepciones (archivos que SÍ deben subirse)
+!**/src/main/resources/application.properties.example

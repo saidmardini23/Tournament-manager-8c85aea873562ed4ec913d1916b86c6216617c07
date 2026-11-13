@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: pagina('Jornadas - ' + ${torneo != null ? torneo.nombre : 'General'}, ~{::contenido})}">
+<body>
+
+<section th:fragment="contenido">
+    <div class="contenedor-menu-torneo">
+        
+        <!-- Encabezado con navegación y el botón "+ Crear Jornada" incorporado -->
+        <div class="encabezado-seccion flex-entre">
+            <div>
+                <a th:if="${torneo != null}" th:href="@{/torneos/{id}(id=${torneo.id})}" class="btn-volver">&lt; Volver al Torneo</a>
+                <a th:unless="${torneo != null}" th:href="@{/torneos}" class="btn-volver">&lt; Volver a Torneos</a>
+                
+                <h1 class="titulo-tabla" 
+                    th:text="${torneo != null} ? ('JORNADAS DE ' + ${torneo.nombre}) : 'TODAS LAS JORNADAS'">
+                    JORNADAS DEL TORNEO
+                </h1>
+            </div>
+
+            <!-- BOTÓN DENTRO DE LA VISTA DE JORNADAS -->
+            <a th:if="${torneoId != null}" 
+               th:href="@{/admin/jornadas/nuevo(torneoId=${torneoId})}" 
+               class="btn-acceso btn-destacado">
+                + Crear Jornada
+            </a>
+            <a th:unless="${torneoId != null}" 
+               th:href="@{/admin/jornadas/nuevo}" 
+               class="btn-acceso btn-destacado">
+                + Crear Jornada
+            </a>
+        </div>
+
+        <!-- Lista de Jornadas -->
+        <div class="lista-torneos-columna" style="margin-top: 1.5rem;">
+            <div th:each="j : ${jornadas}" class="item-torneo-columna">
+                <!-- Al presionar la jornada, lleva a su propio menú/lista de partidos -->
+                <a th:href="@{/jornadas/{id}(id=${j.id})}" class="enlace-menu-torneo">
+                    <span class="nombre-torneo" th:text="'Jornada ' + ${j.numeroJornada}">Jornada 1</span>
+                    <span class="btn-acceso">Ver Partidos &rarr;</span>
+                </a>
+            </div>
+
+            <!-- Estado vacío cuando aún no existen jornadas en el torneo -->
+            <div th:if="${#lists.isEmpty(jornadas)}" class="tabla-vacia">
+                No hay jornadas creadas para este torneo aún. Haz clic en <strong>"+ Crear Jornada"</strong> para agregar la primera.
+            </div>
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>

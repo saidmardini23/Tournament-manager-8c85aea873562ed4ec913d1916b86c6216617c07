@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: pagina(${esEdicion} ? 'Actualizar Jornada' : 'Crear Jornada', 'jornadas', ~{::contenido})}">
+<body>
+<section th:fragment="contenido">
+    <div class="contenedor-formulario-centrado">
+        
+        <div class="encabezado-seccion">
+            <a th:if="${esEdicion}" th:href="@{/jornadas/{id}(id=${jornadaId})}" class="btn-volver">&lt; Volver</a>
+            <a th:if="${!esEdicion and torneoId != null}" th:href="@{/torneos/{id}(id=${torneoId})}" class="btn-volver">&lt; Volver</a>
+            <a th:if="${!esEdicion and torneoId == null}" th:href="@{/torneos}" class="btn-volver">&lt; Volver</a>
+            <h1 class="titulo-formulario" th:text="${esEdicion} ? 'ACTUALIZAR JORNADA' : 'CREAR JORNADA'">CREAR JORNADA</h1>
+        </div>
+
+        <form th:action="${esEdicion} ? @{/admin/jornadas/{id}/editar(id=${jornadaId})} : @{/admin/jornadas/nuevo}"
+              method="post"
+              th:object="${jornada}"
+              class="form-equipo">
+
+            <div th:if="${#fields.hasErrors('*')}" class="mensaje-error">
+                <strong>⚠️ Por favor verifica los datos ingresados en el formulario.</strong>
+            </div>
+
+            <div th:if="${error}" class="mensaje-error" th:text="${error}">Ocurrió un error.</div>
+
+            <!-- Número de Jornada -->
+            <div class="grupo-campo">
+                <label for="numeroJornada">Número de Jornada *</label>
+                <input type="number"
+                       id="numeroJornada"
+                       name="numeroJornada"
+                       th:value="${jornada.numeroJornada}"
+                       required
+                       min="1"
+                       class="input-form"
+                       placeholder="Ej. 1" />
+            </div>
+
+            <!-- Torneo Asociado -->
+            <input th:if="${torneoId != null}" type="hidden" name="torneoId" th:value="${torneoId}" />
+
+            <div th:unless="${torneoId != null}" class="grupo-campo">
+                <label for="torneoId">Torneo *</label>
+                <select id="torneoId" name="torneoId" required class="input-form select-form">
+                    <option value="" disabled th:selected="${jornada.torneoId == null}">-- Seleccione un Torneo --</option>
+                    <option th:each="t : ${torneos}"
+                            th:value="${t.id}"
+                            th:text="${t.nombre}"
+                            th:selected="${t.id == jornada.torneoId}">
+                        Torneo
+                    </option>
+                </select>
+            </div>
+
+            <div class="pie-formulario">
+                <button type="submit"
+                        class="btn-guardar-equipo"
+                        th:text="${esEdicion} ? 'ACTUALIZAR JORNADA' : 'CREAR JORNADA'">
+                    CREAR JORNADA
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>
